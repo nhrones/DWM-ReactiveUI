@@ -1,5 +1,6 @@
-
-import type {CoreEvents} from './coreEventTypes.ts'
+import type {
+   CoreEvents
+} from './coreEventTypes.ts'
 
 import type {
    EventBus, 
