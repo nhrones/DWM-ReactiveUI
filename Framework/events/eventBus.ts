@@ -1,4 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
 
 import type {CoreEvents} from './coreEventTypes.ts'
 
@@ -14,8 +13,8 @@ import type {
  * A factory function that returns a generic strongly-typed EventBus instance 
  * @typeParam T - type that extends EventContract\<T\>
  * @returns EventBus<T> - a strongly-typed EventBus object with the following two methods:   
- * @method when - registers a callback function to be called when the named event is sent (emmited). 
- * @method send - sends (emmits) the named event, triggering the execution of any registered callback functions 
+ * @method on - registers a callback function to be called when the named event is fired (emmited). 
+ * @method fire - fires (emmits) the named event, triggering the execution of any registered callback functions 
  */
 export function buildEventBus<T extends EventContract<T>>(): EventBus<T> {
 
@@ -27,13 +26,13 @@ export function buildEventBus<T extends EventContract<T>>(): EventBus<T> {
    const newEventBus: EventBus<T> = {
 
       /** 
-       * when - registers a handler function to be executed when an event is sent
+       * on - registers a handler function to be executed when an event is fired
        *  
        * @param {key} eventName - event name (one of `TypedEvents` only)!
        * @param {string} id - id of a target element (may be an empty string)
        * @param {Handler} handler - event handler callback function
        */
-      when<EventName extends keyof T>(
+      on<EventName extends keyof T>(
          eventName: EventName,
          id: string,
          handler: EventHandler<T[EventName]>
@@ -49,7 +48,7 @@ export function buildEventBus<T extends EventContract<T>>(): EventBus<T> {
          }
          // keyName needs to be registered
          else {
-            // when first seen - create it with this handler
+            // if first subscription - create it with this handler
             eventHandlers.set(keyName, [handler])
          }
 
@@ -61,7 +60,7 @@ export function buildEventBus<T extends EventContract<T>>(): EventBus<T> {
        * @param {string} id - id of a target element (may be an empty string)
        * @param {TypedEvents[key]} data - data payload, typed for this category of event
        */
-      send<EventName extends keyof T>(
+      fire<EventName extends keyof T>(
          eventName: EventName,
          id: string,
          data: T[EventName]

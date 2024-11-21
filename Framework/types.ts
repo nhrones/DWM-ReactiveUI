@@ -46,12 +46,12 @@ export interface EventBus<T extends EventContract<T>> {
    /** 
     * register a callback for specific named event 
     */
-   when<K extends keyof T>(event: K, id: string, handler: EventHandler<T[K]>): void,
+   on<K extends keyof T>(event: K, id: string, handler: EventHandler<T[K]>): void,
 
    /** 
     * fire a specific named event with an appropriate payload 
     */
-   send<K extends keyof T>(event: K, id: string, args: T[K]): void
+   fire<K extends keyof T>(event: K, id: string, args: T[K]): void
 }
 
 /** type for widget factory */
