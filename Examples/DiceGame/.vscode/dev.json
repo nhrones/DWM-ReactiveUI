@@ -1,0 +1,10 @@
+{
+   "build": {
+      "Out": "./dist",
+      "FileName": "game.js",
+      "Entry": [
+         "./main.ts"
+      ],
+      "Minify": false
+   }
+}
