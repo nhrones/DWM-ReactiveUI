@@ -22,7 +22,7 @@ This is a _Work-In-Progress hobby-project_, and is in no way ready for productio
 <br/>
 
 ## Framework
-This experimental UI framework leverages both _Deno Window Manager_ and a _skia-canvas_ to render a _Graphical User Iinterface_.  All UI is rendered directly to the skia-canvas.  
+This experimental UI framework leverages both _Deno Window Manager_ and a _skia-canvas_ to render a _Retained-Mode Graphical User Iinterface_.  All UI is rendered directly to the skia-canvas.  
 https://github.com/deno-windowing/dwm    
 https://github.com/DjDeveloperr/skia_canvas 
 
