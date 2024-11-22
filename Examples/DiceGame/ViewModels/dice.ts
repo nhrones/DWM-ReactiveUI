@@ -49,7 +49,7 @@ export const init = () => {
    //================================================
 
    // register a callback function for the `internal` DieTouched event
-   eventBus.when(`DieTouched`, "", (data: { index: DieIndex }) => {
+   eventBus.on(`DieTouched`, "", (data: { index: DieIndex }) => {
       const { index } = data
       // deno-lint-ignore no-explicit-any
       const thisDie = die[index] as any
@@ -112,7 +112,7 @@ export const roll = (dieValues: number[] | null) => {
  * @param value {number} the die value to show in the view
  * @param frozen {boolean} the frozen state of this die */
 const updateView = (index: number, value: number, frozen: boolean) => {
-   eventBus.send('UpdateDie', index.toString(), { index: index, value: value, frozen: frozen })
+   eventBus.fire('UpdateDie', index.toString(), { index: index, value: value, frozen: frozen })
 }
 
 /** returns the set of die values as a formatted string */

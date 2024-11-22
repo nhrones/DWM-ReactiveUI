@@ -64,7 +64,7 @@ export default class ScoreButton implements View {
       //                bind events
       //================================================
 
-      eventBus.when('UpdateScoreElement', this.index.toString(),
+      eventBus.on('UpdateScoreElement', this.index.toString(),
          (data: {
             index: number,
             renderAll: boolean,
@@ -89,6 +89,7 @@ export default class ScoreButton implements View {
    
    /** build the correct (left/right) path and Txt locations */
    buildPath() {
+      // deno-lint-ignore no-this-alias
       const s = this
       const { left, top } = s.location
       
@@ -129,7 +130,7 @@ export default class ScoreButton implements View {
 
    /** called from Surface/canvasEvents when this element has been touched */
    touched() {
-      eventBus.send('ScoreButtonTouched', this.index.toString(), this.index)
+      eventBus.fire('ScoreButtonTouched', this.index.toString(), this.index)
    }
 
    /** 

@@ -1,6 +1,6 @@
 
-import { Editor, logThis, WindowKeyboardEvent } from '../deps.ts'
-import { PLACEHOLDER, Insert } from './constants.ts'
+import { Editor, WindowKeyboardEvent } from '../deps.ts'
+import { PLACEHOLDER } from './constants.ts'
 
 //================================================
 //                Clipboard 
@@ -57,7 +57,7 @@ export function handleEditEvents(editor: Editor, evt: WindowKeyboardEvent) {
    // handle COPY command  // fix leaves wrong insertion row??
    if (evt.code === 'KeyC') {
       // preserve clipboard if no selection
-      let selected = getSelectedText(editor)
+      const selected = getSelectedText(editor)
       // preserve clipboard if no selection
       if (selected.length > 0) {
          // copy selected to clipboard
@@ -94,8 +94,8 @@ function getSelectedText(editor: Editor) {
  * remove any selected chars 
  */
 export function removeSelection(editor: Editor) {
-   let left = editor.fullText.substring(0, editor.selectStart)
-   let right = editor.fullText.substring(editor.selectEnd)
+   const left = editor.fullText.substring(0, editor.selectStart)
+   const right = editor.fullText.substring(editor.selectEnd)
    editor.fullText = left + right
    editor.refreshLines() // -> updateInsertionPoint -> updateText
 }
@@ -115,8 +115,8 @@ export function insertChars(editor: Editor, chars = clipboard) {
       editor.insertionColumn += 1
    }
    if (editor.insertionIndex < editor.fullText.length) {
-      let left = editor.fullText.substring(0, editor.insertionIndex)
-      let right = editor.fullText.substring(editor.insertionIndex)
+      const left = editor.fullText.substring(0, editor.insertionIndex)
+      const right = editor.fullText.substring(editor.insertionIndex)
       editor.fullText = left + chars + right
       editor.insertionColumn += chars.length - 1 //ndh fix this
    } else {

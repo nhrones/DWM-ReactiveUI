@@ -18,12 +18,12 @@ export const initCheckbox = (id: string) => {
    thisID = id
 
    // listens for a touch event from this checkbox 
-   Events.when('CheckBoxTouched', thisID, () => {
+   Events.on('CheckBoxTouched', thisID, () => {
       checked = !checked
       txt = (checked) ? checkmark : empty
       const A = true
       if (A) logThis(txt, thisID)
-      Events.send('UpdateButton', thisID,
+      Events.fire('UpdateButton', thisID,
          { text: txt, color: "green", enabled: true }
       )
    })

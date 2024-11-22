@@ -11,8 +11,8 @@ let thisID: string;
 export const initButton = (id: string) => {
    thisID = id
    // listens for a touch event from a Button view with the same id 
-   Events.when('ButtonTouched', thisID, () => {
+   Events.on('ButtonTouched', thisID, () => {
       // fire an event to show a popup
-      Events.send('ShowPopup', '', { title: "", msg: "" })
+      Events.fire('ShowPopup', '', { title: "", msg: "" })
    })
 }

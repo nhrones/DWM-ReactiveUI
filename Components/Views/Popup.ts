@@ -12,7 +12,9 @@ import {
 
 import Text from './Text.ts'
 
+// deno-lint-ignore no-unused-vars
 let left = 1
+// deno-lint-ignore no-unused-vars
 let top = 1
 
 /** A virtual Popup view class */
@@ -69,11 +71,11 @@ export default class Popup implements View {
       //================================================
 
       // Our game controller broadcasts this ShowPopup event at the end of a game
-      Events.when('ShowPopup',"", (data: { title: string, msg: string }) => {
+      Events.on('ShowPopup',"", (data: { title: string, msg: string }) => {
          this.show(data.msg)
       })
 
-      Events.when('HidePopup', "", () => this.hide())
+      Events.on('HidePopup', "", () => this.hide())
    }
    /** build a Path2D */
    buildPath(radius: number) {
@@ -83,7 +85,7 @@ export default class Popup implements View {
    }
    /** show the virtual Popup view */
    show(msg: string) {
-      Events.send('FocusPopup'," ", this)
+      Events.fire('FocusPopup'," ", this)
       this.text = msg
       left = this.location.left
       top = this.location.top
@@ -107,7 +109,7 @@ export default class Popup implements View {
    /** called from Surface/canvasEvents when this element has been touched */
    touched() {
       this.hide()
-      Events.send('PopupReset','', null)
+      Events.fire('PopupReset','', null)
    }
 
    /** update this virtual Popups view (render it) */

@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-unused-vars
 import { Events } from '../deps.ts'
 
 import {eventBus } from '../main.ts'
@@ -59,13 +60,13 @@ export default class ScoreElement {
       //                bind events
       //================================================
 
-      eventBus.when('ScoreButtonTouched', this.index.toString(), (_index: number) => {
+      eventBus.on('ScoreButtonTouched', this.index.toString(), (_index: number) => {
          if (this.clicked()) {
-            eventBus.send(`ScoreElementResetTurn`, "", null)
+            eventBus.fire(`ScoreElementResetTurn`, "", null)
          }
       })
 
-      eventBus.when(`UpdateTooltip`, this.index.toString(), (data: { index: number, hovered: boolean }) => {
+      eventBus.on(`UpdateTooltip`, this.index.toString(), (data: { index: number, hovered: boolean }) => {
          let msg = ''
          let thisState = LabelState.Normal
 
@@ -89,7 +90,7 @@ export default class ScoreElement {
             msg = ''
          }
 
-         Events.send(`UpdateText`, 'infolabel',
+         Events.fire(`UpdateText`, 'infolabel',
             {
                border: false,
                fill: true,
@@ -103,7 +104,7 @@ export default class ScoreElement {
 
    /** broadcasts a message used to update the bottom infolabel element */
    updateInfo(text: string) {
-      Events.send(`UpdateText`, 'infolabel',
+      Events.fire(`UpdateText`, 'infolabel',
          {
             border: false,
             fill: true,
@@ -129,7 +130,7 @@ export default class ScoreElement {
 
    /** fires event used to update the score value */
    renderValue(value: string) {
-      eventBus.send(`UpdateScoreElement`, this.index.toString(),
+      eventBus.fire(`UpdateScoreElement`, this.index.toString(),
          {
             index: this.index,
             renderAll: false,
@@ -142,7 +143,7 @@ export default class ScoreElement {
 
    /**  broadcasts a message used to update the score view element */
    updateScoreElement(color: string | null, value: string) {
-      eventBus.send(`UpdateScoreElement`, this.index.toString(),
+      eventBus.fire(`UpdateScoreElement`, this.index.toString(),
          {
             index: this.index,
             renderAll: true,

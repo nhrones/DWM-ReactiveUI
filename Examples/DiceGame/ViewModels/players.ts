@@ -15,6 +15,7 @@ export type Player = {
     lastScore: string
 }
 
+// deno-lint-ignore no-unused-vars
 let game: App;
 let thisColor = 'snow';
 export const players: Set<Player> = new Set();
@@ -58,7 +59,7 @@ export const addScore = (player: Player, value: number) => {
 
 /** broadcast an update message to the view element */
 const updatePlayer = (index: number, color: string, text: string) => {
-   eventBus.send('UpdatePlayer', index.toString(), {
+   eventBus.fire('UpdatePlayer', index.toString(), {
          index: index,
          color: color, 
          text: text
@@ -101,6 +102,7 @@ export const addPlayer = (id: string, playerName: string) => {
  * called when the players webSocket has closed    
  * @param {string} id - the id of the player to be removed
  */
+// deno-lint-ignore no-unused-vars
 const removePlayer = (id: string) => {
     const p = getById(id)
     if (p) players.delete(p)

@@ -42,10 +42,10 @@ export default class Button implements View {
       this.zOrder = 0
       this.tabOrder = el.tabOrder || 0
       this.location = el.location
-      const { left, top } = el.location
+      //const { left, top } = el.location
       this.boarderWidth = el.boarderWidth || 1
       this.size = el.size || { width: 50, height: 30 }
-      const { width, height } = this.size
+      //const { width, height } = this.size
       this.enabled = true
       this.path = this.buildPath(el.radius || 0)
       this.textNode = new Text(
@@ -71,7 +71,7 @@ export default class Button implements View {
       //================================================
 
       // a VM will emit this event whenever it needs to update the view
-      Events.when('UpdateButton', this.name,
+      Events.on('UpdateButton', this.name,
          (data: { text: string, color: string, enabled: boolean }) => {
             this.enabled = data.enabled
             this.color = data.color
@@ -100,7 +100,7 @@ export default class Button implements View {
    touched() {
       console.log("Button " + this.name + " touched!")
       if (this.enabled) {
-         Events.send('ButtonTouched', this.name, null)
+         Events.fire('ButtonTouched', this.name, null)
       }
    }
 

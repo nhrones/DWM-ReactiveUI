@@ -75,7 +75,7 @@ export default class Text implements View {
       // should this static text `bind` to update events?
       if (el.bind) {
 
-         Events.when('UpdateText', this.name,
+         Events.on('UpdateText', this.name,
             (data: {
                border: boolean,
                fill: boolean

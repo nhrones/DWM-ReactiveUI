@@ -30,7 +30,7 @@ export const addNode = (view: View) => {
    activeNodes.add(view as View)
    
    // inform any interested parties that a new View UI was added
-   Events.send('AddedView', "",
+   Events.fire('AddedView', "",
       {
          type: view.constructor.name,
          index: view.index,

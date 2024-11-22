@@ -1,14 +1,14 @@
 
 import { ctx } from '../deps.ts'
-import { eventBus} from '../main.ts'
+import { eventBus } from '../main.ts'
 import {
-    CanvasRenderingContext2D, 
-    createCanvas,
-    ElementDescriptor,
-    Location,
-    View,
-    Path2D, 
-    ImageData 
+   //CanvasRenderingContext2D, 
+   //createCanvas,
+   ElementDescriptor,
+   Location,
+   View,
+   Path2D,
+   ImageData
 } from '../deps.ts'
 
 import type { } from '../deps.ts'
@@ -34,7 +34,7 @@ export default class Die implements View {
    focused = false
    path: Path2D
    location: Location
-   size: { height:number, width: number }
+   size: { height: number, width: number }
    left: number
    top: number
    width: number
@@ -55,7 +55,7 @@ export default class Die implements View {
          needToBuild = false
       }
       this.index = el.idx
-      this.tabOrder = el.tabOrder  || 0
+      this.tabOrder = el.tabOrder || 0
       this.name = el.id
       this.enabled = true
 
@@ -75,11 +75,11 @@ export default class Die implements View {
       //                bind events
       //================================================
 
-      eventBus.when('UpdateDie', this.index.toString(), (
-         data: { 
-            index: number, 
-            value: number, 
-            frozen: boolean 
+      eventBus.on('UpdateDie', this.index.toString(), (
+         data: {
+            index: number,
+            value: number,
+            frozen: boolean
          }) => {
          this.frozen = data.frozen
          this.value = data.value
@@ -96,7 +96,7 @@ export default class Die implements View {
    /** called from Surface/canvasEvents when this element has been touched */
    touched() {
       // inform Dice with index data
-      eventBus.send(`DieTouched`, "", ({ index: this.index as DieIndex }))
+      eventBus.fire(`DieTouched`, "", ({ index: this.index as DieIndex }))
    }
 
    update() {
@@ -108,7 +108,7 @@ export default class Die implements View {
       const image: ImageData = (this.frozen)
          ? Die.frozenFaces[this.value]
          : Die.faces[this.value]
-      //@ts-ignore
+
       ctx.putImageData(image, this.left, this.top)
       ctx.lineWidth = 2
       if (this.hovered) {

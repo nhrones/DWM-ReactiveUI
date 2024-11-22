@@ -10,16 +10,16 @@ export const logThis = (thisMsg: string, from?: string, clear = false) => {
       logTxt = ""
    }
 
-   let newTxt = ( from ) 
+   const newTxt = ( from ) 
       ? from + " -- " + thisMsg
       : thisMsg
 
    logTxt = newTxt + `
 ${logTxt}` 
-   let maxChars = 600
+   const maxChars = 600
    if (logTxt.length > maxChars) logTxt = logTxt.substring(0, maxChars)
 
-   Events.send("UpdateText", "logger",
+   Events.fire("UpdateText", "logger",
       {
          border: true,
          fill: true,

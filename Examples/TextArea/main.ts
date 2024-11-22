@@ -5,14 +5,14 @@ import {
    containerInit, 
    hydrateUI,
    initCloseButton,
-   initCheckbox,
+   //initCheckbox,
    render,
    TextEditor,
    Events
 } from "./deps.ts";
 
 
-import * as DeleteButton from './deleteButton.ts'
+//import * as DeleteButton from './deleteButton.ts'
 
 // Unpack Configuration Files
 import { cfg } from "./cfg.ts";
@@ -28,14 +28,14 @@ containerInit( // REQUIRED - must be first call
 /** initialize the close button */
 initCloseButton('closebutton')
 
-const textEditor = new TextEditor( 'TextArea1', `First line.
+const _textEditor = new TextEditor( 'TextArea1', `First line.
 Second line.` )
 
 // Build and Display the Apps GUI
 hydrateUI() // REQUIRED - after the App is initialized
 
 // kickstart our editor session
-Events.send('Focused', "TextArea1", false)
+Events.fire('Focused', "TextArea1", false)
 // clear the log
 logThis("", "", true) 
 

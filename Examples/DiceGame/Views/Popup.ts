@@ -1,5 +1,5 @@
 import {
-   Host,
+   //Host,
    ImageData,
    setHasVisiblePopup,
    windowCFG,
@@ -55,11 +55,11 @@ export default class Popup implements View {
       //================================================
 
       // Our game controller broadcasts this ShowPopup event at the end of a game
-      Events.when('ShowPopup',"", (data: { title: string, msg: string }) => {
+      Events.on('ShowPopup',"", (data: { title: string, msg: string }) => {
          this.show(data.msg)
       })
 
-      Events.when('HidePopup', "", () => this.hide())
+      Events.on('HidePopup', "", () => this.hide())
    }
    /** build a Path2D */
    buildPath(radius: number) {
@@ -69,7 +69,7 @@ export default class Popup implements View {
    }
    /** show the virtual Popup view */
    show(msg: string) {
-      Events.send('FocusPopup'," ", this)
+      Events.fire('FocusPopup'," ", this)
       this.text = msg
       left = this.location.left
       top = this.location.top
@@ -96,14 +96,12 @@ export default class Popup implements View {
    saveScreenToBuffer() {
       const { left, top } = this.location
       const { width, height } = this.size
-      //@ts-ignore
       this.buffer = ctx.getImageData(left, top, width, height)
    }
 
    /** paint the canvas with our current snapshot */
    restoreScreenFromBuffer() {
       if (this.buffer) {
-          //@ts-ignore
          return ctx.putImageData(this.buffer, 0, 0)
       }
    }
@@ -111,7 +109,7 @@ export default class Popup implements View {
    /** called from Surface/canvasEvents when this element has been touched */
    touched() {
       this.hide()
-      Events.send('PopupReset','', null)
+      Events.fire('PopupReset','', null)
    }
 
    /** update this virtual Popups view (render it) */

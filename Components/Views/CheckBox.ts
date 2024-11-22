@@ -42,10 +42,10 @@ export default class CheckBox implements View {
       this.zOrder = 0
       this.tabOrder = el.tabOrder || 0
       this.location = el.location
-      const { left, top } = el.location
+      //const { left, top } = el.location
       this.boarderWidth = el.boarderWidth || 1
       this.size = el.size || { width: 50, height: 30 }
-      const { width, height } = this.size
+      //const { width, height } = this.size
       this.enabled = true
       this.path = this.buildPath(el.radius || 0)
       this.color = el.color || 'red'
@@ -59,7 +59,7 @@ export default class CheckBox implements View {
       //================================================
 
       // a VM will emit this event whenever it needs to update the view
-      Events.when('UpdateCheckBox', this.name,
+      Events.on('UpdateCheckBox', this.name,
          (data: { text: string, color: string, checked: boolean }) => {
             this.checked = data.checked
             this.color = data.color
@@ -89,7 +89,7 @@ export default class CheckBox implements View {
       const A = false
       if (A) logThis(" touched!", "CheckBox " + this.name)
       if (this.enabled) {
-         Events.send('CheckBoxTouched', this.name, { checked: this.enabled })
+         Events.fire('CheckBoxTouched', this.name, { checked: this.enabled })
       }
    }
 

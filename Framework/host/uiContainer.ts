@@ -1,8 +1,7 @@
-// deno-lint-ignore-file no-explicit-any
-
 import type { Configuration, 
    ElementDescriptor,
-   FactoryType, 
+   FactoryType,
+   //Manifest, 
 } from '../types.ts'
 
 import { renderNodes, addNode } from '../render/activeNodes.ts'
@@ -27,8 +26,9 @@ let factories: Map<string, FactoryType>
 /**  
  * create our app (window) 
  */
-export function containerInit(
+export function containerInit (
    cfg: Configuration,
+   // deno-lint-ignore no-explicit-any
    manifest: any
 ) {
    // initialize our execution context  
@@ -92,11 +92,13 @@ export const hydrateUI = () => {
 }
 
 export function addElement(el: ElementDescriptor) {
+
    // get the `kind` of the view being requested
    const thisKind = el.kind.toLowerCase()
 
    // test if we have a registered factory for this kind
    if (factories.has(thisKind)) {
+
       // to hydrate the View-element,
       // we get the registered constructor
       const View = factories?.get(thisKind)?.component

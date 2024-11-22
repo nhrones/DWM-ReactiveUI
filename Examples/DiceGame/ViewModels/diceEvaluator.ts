@@ -45,111 +45,111 @@ export let hasFullStr = false
  * records the 'count' of Face Values of the 5 die.       
  * sets dice.isFiveOfaKind if FiveOkind is detected */
 export const evaluateDieValues = () => {
-    countOfDieFaceValue = [0, 0, 0, 0, 0, 0, 0]
-    sumOfAllDie = 0 // set in the loop below
-    // get the value of each die and increment the
-    // counter that represents that value
-    const dieSet = dice.die
-    for (let i = 0; i < 5; i++) {
-        // get the value of this die
-        const val = dieSet[i].value
-        // add this value to the sum
-        sumOfAllDie += val
-        if (val > 0) {
-            // increment the counter where (array index = value)
-            countOfDieFaceValue[val] += 1
-        }
-    }
-    // now, we set our binary-mask based on the current die values
-    setTheStraightsMask()
-    // set all scoring flags based on the current values of the die-set
-    setScoringFlags()
-    // if all five die have the same value, set a flag on the dice object 
-    dice.setIsFiveOfaKind(testForFiveOfaKind())
+   countOfDieFaceValue = [0, 0, 0, 0, 0, 0, 0]
+   sumOfAllDie = 0 // set in the loop below
+   // get the value of each die and increment the
+   // counter that represents that value
+   const dieSet = dice.die
+   for (let i = 0; i < 5; i++) {
+      // get the value of this die
+      const val = dieSet[i].value
+      // add this value to the sum
+      sumOfAllDie += val
+      if (val > 0) {
+         // increment the counter where (array index = value)
+         countOfDieFaceValue[val] += 1
+      }
+   }
+   // now, we set our binary-mask based on the current die values
+   setTheStraightsMask()
+   // set all scoring flags based on the current values of the die-set
+   setScoringFlags()
+   // if all five die have the same value, set a flag on the dice object 
+   dice.setIsFiveOfaKind(testForFiveOfaKind())
 }
 
 /** Sets all scoring flags based on the current values of the die-set. */
 const setScoringFlags = () => {
 
-    // first we reset all flags
-    hasPair = false
-    hasTwoPair = false
-    hasTrips = false
-    hasQuads = false
-    hasFiveOfaKind = false
-    hasTripsOrBetter = false
-    hasFullHouse = false
-    hasSmallStr = false
-    hasLargeStr = false
-    hasFullStr = false
+   // first we reset all flags
+   hasPair = false
+   hasTwoPair = false
+   hasTrips = false
+   hasQuads = false
+   hasFiveOfaKind = false
+   hasTripsOrBetter = false
+   hasFullHouse = false
+   hasSmallStr = false
+   hasLargeStr = false
+   hasFullStr = false
 
-    for (let i = 0; i < 7; i++) {
-        if (countOfDieFaceValue[i] === 5) {
-            hasFiveOfaKind = true
-            hasTripsOrBetter = true
-        }
-        if (countOfDieFaceValue[i] === 4) {
-            hasQuads = true
-            hasTripsOrBetter = true
-        }
-        if (countOfDieFaceValue[i] === 3) {
-            hasTrips = true
-            hasTripsOrBetter = true
-        }
-        if (countOfDieFaceValue[i] === 2) {
-            if (hasPair) {
-                hasTwoPair = true
-            }
-            hasPair = true
-        }
-    }
+   for (let i = 0; i < 7; i++) {
+      if (countOfDieFaceValue[i] === 5) {
+         hasFiveOfaKind = true
+         hasTripsOrBetter = true
+      }
+      if (countOfDieFaceValue[i] === 4) {
+         hasQuads = true
+         hasTripsOrBetter = true
+      }
+      if (countOfDieFaceValue[i] === 3) {
+         hasTrips = true
+         hasTripsOrBetter = true
+      }
+      if (countOfDieFaceValue[i] === 2) {
+         if (hasPair) {
+            hasTwoPair = true
+         }
+         hasPair = true
+      }
+   }
 
-    // after evaluating sets of numbers, we use logical AND (&&)   
-    // on flags for both 3-O-kind and a pair (a poker full-house)
-    hasFullHouse = (hasTrips && hasPair)
+   // after evaluating sets of numbers, we use logical AND (&&)   
+   // on flags for both 3-O-kind and a pair (a poker full-house)
+   hasFullHouse = (hasTrips && hasPair)
 
-    // set a shortened reference to our mask      
-    const mask = straightsMask
+   // set a shortened reference to our mask      
+   const mask = straightsMask
 
-    // Now, we use binary AND (&) to detect value sequences.   
-    // We 'and' the dice binary value with a known binary mask, 
-    // and then compare the resulting value to that masks value.
+   // Now, we use binary AND (&) to detect value sequences.   
+   // We 'and' the dice binary value with a known binary mask, 
+   // and then compare the resulting value to that masks value.
 
-    // first, any large straights?
-    hasLargeStr = ((mask & largeLow) === largeLow ||
-        (mask & largeHigh) === largeHigh)
+   // first, any large straights?
+   hasLargeStr = ((mask & largeLow) === largeLow ||
+      (mask & largeHigh) === largeHigh)
 
-    // again, binary masking to discover any small straights    
-    hasSmallStr = ((mask & smallLow) === smallLow ||
-        (mask & smallMid) === smallMid ||
-        (mask & smallHigh) === smallHigh)
+   // again, binary masking to discover any small straights    
+   hasSmallStr = ((mask & smallLow) === smallLow ||
+      (mask & smallMid) === smallMid ||
+      (mask & smallHigh) === smallHigh)
 }
 
 /** Tests if all 5 die values are the same. */
 const testForFiveOfaKind = () => {
-    // did we see 5 of the same?
-    return  (hasFiveOfaKind)
+   // did we see 5 of the same?
+   return (hasFiveOfaKind)
 }
 
 /** Sets a binary mask for evaluating for straights sequences. */
 const setTheStraightsMask = () => {
 
-    // get the current die values
-    const die = dice.die
+   // get the current die values
+   const die = dice.die
 
-    // reset our mask
-    straightsMask = 0
+   // reset our mask
+   straightsMask = 0
 
-    // for each posible die value ( 1 thru 6 )   
-    // if any of the 5 die has this value, 
-    // add the binary-weight of this value to our mask
-    for (let thisValue = 1; thisValue <= 6; thisValue++) {
-        if (die[0].value === thisValue ||
-            die[1].value === thisValue ||
-            die[2].value === thisValue ||
-            die[3].value === thisValue ||
-            die[4].value === thisValue) {
-            straightsMask += binaryFaceValue[thisValue]
-        }
-    }
+   // for each posible die value ( 1 thru 6 )   
+   // if any of the 5 die has this value, 
+   // add the binary-weight of this value to our mask
+   for (let thisValue = 1; thisValue <= 6; thisValue++) {
+      if (die[0].value === thisValue ||
+         die[1].value === thisValue ||
+         die[2].value === thisValue ||
+         die[3].value === thisValue ||
+         die[4].value === thisValue) {
+         straightsMask += binaryFaceValue[thisValue]
+      }
+   }
 }

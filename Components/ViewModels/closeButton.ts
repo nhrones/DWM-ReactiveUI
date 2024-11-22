@@ -10,7 +10,7 @@ let thisID: string;
 export const initCloseButton = (id: string) => {    
     thisID = id   
     // listens for a touch event from this buttom 
-    Events.when('ButtonTouched', thisID, () => {
+    Events.on('ButtonTouched', thisID, () => {
         Host.window.close()
     })
 }

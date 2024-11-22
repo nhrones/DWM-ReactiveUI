@@ -8,37 +8,37 @@ const thisID = 'rollbutton'
 
 export const state = { text: '', color: '', enabled: true }
 
-/**  Called from DiceGame Controller ctor */ 
+/**  Called from DiceGame Controller ctor */
 export const init = () => {
-    // when this instance rolls dice
-    Events.when('ButtonTouched', thisID, () => {
-        dice.roll(null)
-        updateRollState()
-    })
+   // when this instance rolls dice
+   Events.on('ButtonTouched', thisID, () => {
+      dice.roll(null)
+      updateRollState()
+   })
 }
 
 /** state management for the roll button */
 const updateRollState = () => {
-    switch (dice.rollCount) {
-        case 1:
-            state.text = 'Roll Again'
-            break
-        case 2:
-            state.text = 'Last Roll'
-            break
-        case 3:
-            state.enabled = false
-            state.text = 'Select Score'
-            break
-        default:
-            state.text = 'Roll Dice'
-            dice.setRollCount(0)
-    }
-    update()
+   switch (dice.rollCount) {
+      case 1:
+         state.text = 'Roll Again'
+         break
+      case 2:
+         state.text = 'Last Roll'
+         break
+      case 3:
+         state.enabled = false
+         state.text = 'Select Score'
+         break
+      default:
+         state.text = 'Roll Dice'
+         dice.setRollCount(0)
+   }
+   update()
 }
 
 /** fires an update event with the current state */
 export const update = () => {
-   Events.send('UpdateButton', thisID, state)
+   Events.fire('UpdateButton', thisID, state)
 }
 

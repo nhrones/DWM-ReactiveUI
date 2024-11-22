@@ -20,8 +20,8 @@ import {
    DwnArrow,
    LeftArrow,
    RightArrow,
-   Tab,
-   PLACEHOLDER,
+   //Tab,
+   //PLACEHOLDER,
    Insert
 } from './constants.ts'
 
@@ -102,7 +102,8 @@ export class TextEditor implements Editor {
       this.id = id
 
       // a View or a VM will report its TextMetrics on initialization
-      Events.when('TextMetrics', this.id, (data: any) => {
+      // deno-lint-ignore no-explicit-any
+      Events.on('TextMetrics', this.id, (data: any) => {
          this.containerSize = data.size;
          this.textCapacity = data.capacity.columns - 1;
          this.rowCapacity = data.capacity.rows;
@@ -110,24 +111,24 @@ export class TextEditor implements Editor {
       })
 
       // listen for a touch event
-      Events.when('TextViewTouched', this.id, () => {
+      Events.on('TextViewTouched', this.id, () => {
          // update the view
          this.updateText(this.id, true, "TextViewTouched")
       })
 
       // listen for a focus change event
-      Events.when('Focused', this.id, (hasFocus: boolean) => {
+      Events.on('Focused', this.id, (hasFocus: boolean) => {
          // have liveText update the view (sets liveText focus state)
          this.updateText(this.id, hasFocus, "Focused");
       })
 
       // Input eventhandler -> data: string
-      Events.when(`WindowInput`, this.id, (evt: WindowInputEvent) => {
+      Events.on(`WindowInput`, this.id, (evt: WindowInputEvent) => {
          insertChars(this, evt.data)
       })
 
       // KeyDown eventhandler for: enter, backspace, delete, arrows, shiftKey, ctrlKey  
-      Events.when('WindowKeyDown', this.id, (evt: WindowKeyboardEvent) => { // OK
+      Events.on('WindowKeyDown', this.id, (evt: WindowKeyboardEvent) => { // OK
          const { ctrlKey, shiftKey } = evt
          // a `ctrlKey` implies an edit command 
          // trap and handle the edit commands 
@@ -457,7 +458,7 @@ export class TextEditor implements Editor {
    // Fire an event to update the host view
    updateText(id: string, hasfocus: boolean, reason: string) { // OK
       this.focused = hasfocus
-      Events.send('UpdateTextArea', id,
+      Events.fire('UpdateTextArea', id,
          {
             reason: reason,
             text: this.fullText,

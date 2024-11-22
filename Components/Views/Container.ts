@@ -4,7 +4,7 @@ import {
    ElementDescriptor,
    ctx,
    Events,
-   logThis,
+   //logThis,
 } from '../deps.ts'
 
 import Scrollbar from './Scrollbar.ts'
@@ -61,12 +61,13 @@ export default class Container {
       )
       this.scrollBar = new Scrollbar(this)
       
-      Events.when("Scroll", "", (evt) => {
+      Events.on("Scroll", "", (evt) => {
          this.scrollBar.scroll(evt.deltaY)
       })
       
       // a View or a VM will report its TextMetrics on initialization
-      Events.when('TextMetrics', this.name, (data: any) => {
+      // deno-lint-ignore no-explicit-any
+      Events.on('TextMetrics', this.name, (data: any) => {
          this.textCapacity = data.capacity.columns - 1;
          this.rowCapacity = data.capacity.rows;
       })

@@ -17,6 +17,7 @@ import * as rollButton from './rollButton.ts'
 const SHORTCUT_GAMEOVER = false;
 
 const snowColor = 'snow'
+// deno-lint-ignore no-unused-vars
 const grayColor = 'gray'
 
 //================================================
@@ -68,12 +69,12 @@ export class App {
          this.resetTurn()
       }
 
-      Events.when(`PopupReset`, "", () => {
-         Events.send(`HidePopup`, "", null)
+      Events.on(`PopupReset`, "", () => {
+         Events.fire(`HidePopup`, "", null)
          this.resetGame()
       })
 
-      eventBus.when(`ScoreElementResetTurn`, "", () => {
+      eventBus.on(`ScoreElementResetTurn`, "", () => {
          if (this.isGameComplete()) {
             this.clearPossibleScores()
             this.setLeftScores()
@@ -84,7 +85,7 @@ export class App {
          }
       })
 
-      Events.when('AddedView', "", (view: { type: string, index: number, name: string }) => {
+      Events.on('AddedView', "", (view: { type: string, index: number, name: string }) => {
          if (view.type === 'ScoreButton') {
             this.scoreItems.push(new ScoreElement(view.index, view.name))
          }
@@ -137,7 +138,7 @@ export class App {
 
    /** resets game state to start a new game */
    resetGame() {
-      Events.send(`HidePopup`, "", null)
+      Events.fire(`HidePopup`, "", null)
       Players.setCurrentPlayer(this.getPlayer(0))
       dice.resetGame()
       for (const scoreItem of this.scoreItems) {
@@ -150,7 +151,7 @@ export class App {
       this.leftTotal = 0
       this.rightTotal = 0
 
-      Events.send('UpdateText', 'leftscore',
+      Events.fire('UpdateText', 'leftscore',
          {
             border: true,
             fill: true,
@@ -180,7 +181,7 @@ export class App {
       rollButton.state.text = winMsg
       rollButton.update()
 
-      Events.send(`UpdateText`, 'infolabel',
+      Events.fire(`UpdateText`, 'infolabel',
          {
             border: false,
             fill: true,
@@ -189,7 +190,7 @@ export class App {
             text: winMsg + ' ' + winner.score
          }
       )
-      Events.send('ShowPopup', "", { title: 'Game Over!', msg: 'You Won!' })
+      Events.fire('ShowPopup', "", { title: 'Game Over!', msg: 'You Won!' })
    }
 
    /** check all scoreElements to see if game is complete */
@@ -238,7 +239,7 @@ export class App {
          }
 
          Players.addScore(bonusWinner, 35)
-         Events.send('UpdateText', 'leftscore',
+         Events.fire('UpdateText', 'leftscore',
             {
                border: true,
                fill: true,
@@ -249,7 +250,7 @@ export class App {
          )
       }
       else {
-         Events.send('UpdateText', 'leftscore',
+         Events.fire('UpdateText', 'leftscore',
             {
                border: true, 
                fill: true,
@@ -260,7 +261,7 @@ export class App {
          )
       }
       if (this.leftTotal === 0) {
-         Events.send('UpdateText', 'leftscore',
+         Events.fire('UpdateText', 'leftscore',
             {
                border: true, 
                fill: true,

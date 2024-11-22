@@ -1,5 +1,8 @@
 
-import { buildEventBus } from "./deps.ts"
+import { 
+   buildEventBus, 
+   //Manifest 
+} from "./deps.ts"
 import { initCloseButton, mainloop, containerInit, hydrateUI, render } from "./deps.ts";
 import { App, appInstance } from './ViewModels/diceGame.ts';
 import * as Players from './ViewModels/players.ts';

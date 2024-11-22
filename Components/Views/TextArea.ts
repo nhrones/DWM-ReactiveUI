@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-unused-vars no-explicit-any
 import Container from './Container.ts'
 import {
    Path2D,
@@ -23,23 +24,23 @@ const placeholder = 'text'
 
 /** TextArea class */
 export default class TextArea extends Container implements View {
-   id = 0
-   activeView = true
-   index = 1
-   zOrder = 0
-   tabOrder = 0
-   name = ''
-   enabled = true
-   hovered = false
-   focused = false
+   override id = 0
+   override activeView = true
+   override index = 1
+   override zOrder = 0
+   override tabOrder = 0
+   override name = ''
+   override enabled = true
+   override hovered = false
+   override focused = false
    log = false
-   path: Path2D
+   override path: Path2D
    size: { height: number, width: number }
-   padding: number = 10
+   override padding: number = 10
    location: Location
-   color: string
+   override color: string
    fontColor: string
-   lineHeight = 0
+   override lineHeight = 0
    text = ""
    lines: TextLine[] = []
    trimmedLeft = ""
@@ -53,9 +54,9 @@ export default class TextArea extends Container implements View {
    /** 
     * the number of characters that will fit in this width  
     */
-   textCapacity = 0
-   rowCapacity = 0
-   showPlaceholder = true
+   override textCapacity = 0
+   override rowCapacity = 0
+   override showPlaceholder = true
    fontSize: number
 
 
@@ -82,7 +83,7 @@ export default class TextArea extends Container implements View {
       )
 
       // report the metrics to any interested party
-      Events.send('TextMetrics', this.name,
+      Events.fire('TextMetrics', this.name,
          {
             size: this.size,
             capacity: { rows: this.rowCapacity, columns: this.textCapacity }
@@ -90,8 +91,8 @@ export default class TextArea extends Container implements View {
       )
 
       // the VM will emit this event whenever it needs to update the View            
-      Events.when('UpdateTextArea', this.name, (data: any) => {
-         let {
+      Events.on('UpdateTextArea', this.name, (data: any) => {
+         const {
             reason,
             text,
             lines,
@@ -140,9 +141,10 @@ export default class TextArea extends Container implements View {
    getMetrics() {
       // calculates fit based on font
       ctx.font = `${this.fontSize}px Tahoma, Verdana, sans-serif`;
-      let t = 'This is a test! A very very long text!'
-      let m = ctx.measureText(t)
+      const t = 'This is a test! A very very long text!'
+      const m = ctx.measureText(t)
       this.lineHeight = (m.fontBoundingBoxAscent + m.fontBoundingBoxDescent);
+      // deno-lint-ignore no-self-assign
       this.size.height = this.size.height
       this.widthPerChar = m.width / t.length
       this.textCapacity = this.size.width / this.widthPerChar
@@ -152,16 +154,16 @@ export default class TextArea extends Container implements View {
       return this.size.width - ctx.measureText(this.text).width;
    }
 
-   touched() {
-      Events.send('TextViewTouched', this.name, null)
+   override touched() {
+      Events.fire('TextViewTouched', this.name, null)
    }
 
-   update() {
+   override update() {
       this.render()
    }
 
    /** render the container and text */
-   render() {
+   override render() {
 
       /** render the container and scrollbar */
       super.render()
@@ -188,7 +190,7 @@ export default class TextArea extends Container implements View {
          if (line.length <= 0) continue;
 
          // get top of each line
-         let textTop = this.location.top + ((this.lineHeight * (lineNumber + 1)))
+         const textTop = this.location.top + ((this.lineHeight * (lineNumber + 1)))
 
          // not focused (no caret)
          if (this.showPlaceholder && this.focused === false) {
@@ -226,7 +228,7 @@ export default class TextArea extends Container implements View {
 
    /** locate Caret */
    positionCaret(line: string) {
-      let col = this.insertionColumn
+      const col = this.insertionColumn
       // set caret location
       this.trimmedLeft = line.substring(0, col);
       this.trimmedRight = line.substring(col);

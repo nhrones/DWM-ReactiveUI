@@ -1,10 +1,11 @@
+// deno-lint-ignore-file no-explicit-any
 
 import { activeNodes  } from '../render/activeNodes.ts'
 import { Host, ctx, dwmWindow, hasVisiblePopup } from '../render/renderContext.ts'
 
 import type { View } from '../types.ts';
 import { Events } from './eventBus.ts'
-import { logThis } from './logger.ts'
+//import { logThis } from './logger.ts'
 //==================================================
 //                Sytem Events Module
 //==================================================
@@ -35,7 +36,7 @@ export function initHostEvents( ): void {
       // look for a focused node, if none, just ignore the event
       if (focusedNode !== null) {
          // we fire this event directly to the focused node only
-         Events.send('WindowInput', focusedNode.name, evt)
+         Events.fire('WindowInput', focusedNode.name, evt)
       }
    })
 
@@ -60,7 +61,7 @@ export function initHostEvents( ): void {
       // handle Enter key
       if (evt.code === 'Enter') {
          if (hasVisiblePopup === true) {
-            Events.send(`PopupReset`, "", null)
+            Events.fire(`PopupReset`, "", null)
          } else if (focusedNode !== null) {
             focusedNode.touched()
          }
@@ -69,7 +70,7 @@ export function initHostEvents( ): void {
       // look for focused node
       if (focusedNode !== null) {
          // again only to a node with focus
-         Events.send('WindowKeyDown', focusedNode.name, evt)
+         Events.fire('WindowKeyDown', focusedNode.name, evt)
       }
    })
 
@@ -82,7 +83,7 @@ export function initHostEvents( ): void {
             handleClickOrTouch(evt.pageX, evt.pageY)
          } // a popup is open, just close it
          else {
-            Events.send(`PopupReset`, "", null)
+            Events.fire(`PopupReset`, "", null)
          }
       }
    }, false)
@@ -99,7 +100,7 @@ export function initHostEvents( ): void {
    addEventListener('scroll', (evt) => {
       evt.preventDefault();
       const y = (Math.sign(evt.scrollY));
-      Events.send('Scroll', "", { deltaY: y })
+      Events.fire('Scroll', "", { deltaY: y })
    });
 
 }
@@ -123,7 +124,7 @@ function handleMouseMove(evt: any,) {
    node = null
 
    for (const element of activeNodes) {
-      //@ts-ignore
+      //@ts-ignore ?
       if (ctx.isPointInPath(element.path, x, y)) {
          // going from bottom to top, top-most object wins
          node = element
@@ -165,7 +166,7 @@ function handleClickOrTouch(x: number, y: number) {
    for (const element of activeNodes) {
       if (!hit) { // short circuit once we get a hit
          // check each element (bottom to top), top-most object wins
-         //@ts-ignore
+         //@ts-ignore ?
          if (ctx.isPointInPath(element.path, x, y)) {
             // got one, call the elements touched method
             element.touched()
@@ -175,7 +176,7 @@ function handleClickOrTouch(x: number, y: number) {
             focusedNode = element
             // tell others about this newly focused element
             if (focusedNode)
-            Events.send('Focused', focusedNode.name, true);
+            Events.fire('Focused', focusedNode.name, true);
             hit = true
          }
       }
@@ -189,7 +190,7 @@ function clearFocused() {
    if (focusedNode !== null) {
       focusedNode.focused = false;
       focusedNode.hovered = false
-      Events.send('Focused', focusedNode.name, focusedNode.focused);
+      Events.fire('Focused', focusedNode.name, focusedNode.focused);
       focusedNode.update();      // re-render the element
    }
 }
@@ -204,6 +205,7 @@ function clearHovered() {
 }
 
 /** change focus to this tabOrder */
+// deno-lint-ignore no-unused-vars
 function focusNext(target: number, shift: boolean) {
    hit = false
    for (const element of activeNodes) {
@@ -224,7 +226,7 @@ function focusNext(target: number, shift: boolean) {
                focusedNode.update()
 
                // tell others about this newly focused element 
-               Events.send('Focused', focusedNode.name, true)
+               Events.fire('Focused', focusedNode.name, true)
             }
             hit = true
          }
