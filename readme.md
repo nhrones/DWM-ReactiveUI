@@ -38,7 +38,7 @@ The most unique aspect of this framework is the complete decoupling of Views, Vi
 ## Dice game example
 To run the Dice-Game example, with Deno installed, run:
 ```
-deno run -A --unstable https://raw.githubusercontent.com/nhrones/DWM-ReactiveUI/main/Examples/DiceGame/main.ts
+deno run -A https://raw.githubusercontent.com/nhrones/DWM-ReactiveUI/main/Examples/DiceGame/main.ts
 ```
  
 <br/>
@@ -46,7 +46,7 @@ deno run -A --unstable https://raw.githubusercontent.com/nhrones/DWM-ReactiveUI/
 ## Editable Text Area example
 To run the multi-line text example, with Deno installed, run:
 ```
-deno run -A --unstable https://raw.githubusercontent.com/nhrones/DWM-ReactiveUI/main/Examples/TextArea/main.ts
+deno run -A https://raw.githubusercontent.com/nhrones/DWM-ReactiveUI/main/Examples/TextArea/main.ts
 ```
  
 <br/>
