@@ -27,6 +27,9 @@ https://github.com/deno-windowing/dwm
 https://github.com/DjDeveloperr/skia_canvas 
 
 Unlike Microsofts WPF and Silverlights use of _code-behind_ files, DWM_ReactiveUI uses an MVVM framework where _code-behind_ is replaced by decoupled _Viewmodels_. 
+<br/>
+
+The most unique aspect of this framework is the complete decoupling of Views, ViewModels, as well as the framewor, by way of a common, strongly-typed, synchronous event-bus.
  
 <br/>
 
