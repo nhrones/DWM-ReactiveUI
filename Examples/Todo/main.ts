@@ -34,20 +34,20 @@ initCheckbox('CheckBox1')
 /** initialize the delete button */
 DeleteButton.init('deletebutton')
 
-const textEditor = new TextEditor( 'TextArea1', `First line.
+const _textEditor = new TextEditor( 'TextArea1', `First line.
 Second line.` )
 
 // Build and Display the Apps GUI
 hydrateUI() // REQUIRED - after the App is initialized
 
 // kickstart our editor session
-Events.send('Focused', "TextArea1", false)
+Events.fire('Focused', "TextArea1", false)
 // clear the log
 logThis("", "", true) 
 
 let row = 0
 
-Events.when('ButtonTouched',"addbutton", () => {
+Events.on('ButtonTouched',"addbutton", () => {
    logThis("addbutton", "ButtonTouched")
    row++
    addTodo(row, 470 + (row * 32))

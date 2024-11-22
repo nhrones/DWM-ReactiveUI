@@ -66,11 +66,11 @@ export function addTodo(index: number, top: number ) {
       boarderWidth: 0
    }) 
       
-   Events.when("CheckBoxTouched", thisID, (checked) => {
+   Events.on("CheckBoxTouched", thisID, (checked) => {
       logThis(`checked:${checked.checked}`, `Checkbox touched: ${thisID}`)
    })
    
-   Events.when("ButtonTouched", thisID, (id) => {
+   Events.on("ButtonTouched", thisID, (_id) => {
       logThis(`DeleteRow!`, `Delete Row Touched: ${thisID}`)
    })
 }
