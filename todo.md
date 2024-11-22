@@ -4,4 +4,5 @@
     - WYSIWYG element editor
       * Grab handles
       * Snap to grid
-      * Property editor
+    - Property editor
+      * Table of Property name and value
