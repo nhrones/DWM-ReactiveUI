@@ -22,11 +22,12 @@ export function buildEventBus<T extends EventContract<T>>(): EventBus<T> {
    /** 
     * holds an array of event handler for each registered event name 
     */
-   const eventHandlers: Map<string, EventHandler[]> = new Map()
+   const eventSubscriptions: Map<string, EventHandler[]> = new Map()
 
    const newEventBus: EventBus<T> = {
 
       /** 
+       * Subscribe to event
        * on - registers a handler function to be executed when an event is fired
        *  
        * @param {key} eventName - event name (one of `TypedEvents` only)!
@@ -42,20 +43,21 @@ export function buildEventBus<T extends EventContract<T>>(): EventBus<T> {
          const keyName = eventName as string + '-' + id
 
          // if this keyName has already been registered
-         if (eventHandlers.has(keyName)) {
-            const handlers = eventHandlers.get(keyName)!
+         if (eventSubscriptions.has(keyName)) {
+            const handlers = eventSubscriptions.get(keyName)!
             // push this new handler to it. 
             handlers.push(handler)
          }
          // keyName needs to be registered
          else {
             // if first subscription - create it with this handler
-            eventHandlers.set(keyName, [handler])
+            eventSubscriptions.set(keyName, [handler])
          }
 
       },
 
       /** 
+       * Publish an event
        * execute all registered handlers for a named event
        * @param {key} eventName - event name - one of `TypedEvents` only!
        * @param {string} id - id of a target element (may be an empty string)
@@ -70,7 +72,7 @@ export function buildEventBus<T extends EventContract<T>>(): EventBus<T> {
          const keyName = eventName as string + '-' + id
 
          // check for any registered handlers for this unique keyName
-         const handlers = eventHandlers!.get(keyName);
+         const handlers = eventSubscriptions!.get(keyName);
          if (handlers) {
             // callback all registered handlers with any data payload
             for (const handler of handlers) {
